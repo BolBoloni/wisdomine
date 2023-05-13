@@ -56,16 +56,38 @@ async function askQuestion() {
   }
   
 
-function appendChatMessage(className, label, text) {
+  function appendChatMessage(className, label, text) {
     const chatContent = document.getElementById("chat-content");
     const messageDiv = document.createElement("div");
     messageDiv.classList.add("chat-message", className);
-    messageDiv.innerHTML = `<strong>${label}:</strong> ${text}`;
+    
+    // Add thumbs up and thumbs down buttons for AI's answer
+    if (className === "ai-message") {
+      messageDiv.innerHTML = `
+        <strong>${label}:</strong> ${text}
+        <div class="feedback-buttons">
+          <button class="thumbs-up">👍</button>
+          <button class="thumbs-down">👎</button>
+        </div>
+      `;
+      
+      // Add event listeners for the buttons
+      messageDiv.querySelector(".thumbs-up").addEventListener("click", () => {
+        recordData({ eventType: "thumbsUp" });
+      });
+      messageDiv.querySelector(".thumbs-down").addEventListener("click", () => {
+        recordData({ eventType: "thumbsDown" });
+      });
+    } else {
+      messageDiv.innerHTML = `<strong>${label}:</strong> ${text}`;
+    }
+    
     chatContent.appendChild(messageDiv);
-  
+    
     // Scroll to the bottom of the chat
     chatContent.scrollTop = chatContent.scrollHeight;
   }
+  
   
   function recordData(data) {
     // Save the data to your database, analytics service, or any other storage system
