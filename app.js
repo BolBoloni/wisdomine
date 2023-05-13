@@ -64,7 +64,9 @@ async function askQuestion() {
     // Add thumbs up and thumbs down buttons for AI's answer
     if (className === "ai-message") {
       messageDiv.innerHTML = `
-        <strong>${label}:</strong> ${text}
+        <div>
+          <strong>${label}:</strong> ${text}
+        </div>
         <div class="feedback-buttons">
           <button class="thumbs-up">👍</button>
           <button class="thumbs-down">👎</button>
@@ -87,6 +89,7 @@ async function askQuestion() {
     // Scroll to the bottom of the chat
     chatContent.scrollTop = chatContent.scrollHeight;
   }
+  
   
   
   function recordData(data) {
