@@ -1,23 +1,23 @@
 const apiKey = "your_openai_api_key_here";
 
-async function callChatGPTAPI(prompt) {
-  const response = await fetch("https://api.openai.com/v1/engines/davinci-codex/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      prompt: prompt,
-      max_tokens: 100,
-      n: 1,
-      stop: null,
-      temperature: 0.8
-    })
-  });
-
-  return await response.json();
-}
+function callChatGPTAPI() {
+    // Array of pre-determined sentences
+    const sentences = [
+      "This is a random sentence for debugging purposes.",
+      "Another random sentence appears!",
+      "Debugging is an essential part of software development.",
+      "Yet another random sentence for your debugging needs.",
+      "This is a test. This is only a test.",
+    ];
+  
+    // Pick a random sentence
+    const index = Math.floor(Math.random() * sentences.length);
+    const sentence = sentences[index];
+  
+    // Return the sentence wrapped in a Promise to simulate an async API call
+    return Promise.resolve({ choices: [{ text: sentence }] });
+  }
+  
 
 async function askQuestion() {
     const questionInput = document.getElementById("question-input");
