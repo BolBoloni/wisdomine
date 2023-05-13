@@ -20,33 +20,41 @@ async function callChatGPTAPI(prompt) {
 }
 
 async function askQuestion() {
-  const questionInput = document.getElementById("question-input");
-  const question = questionInput.value.trim();
-
-  if (question.length === 0) return;
-
-  // Add the user's question to the chat
-  appendChatMessage("user-message", "User", question);
-
-  // Call the API
-  const prompt = `prompt here\n\nUser: ${question}\nAI: `;
-  const response = await callChatGPTAPI(prompt);
-  const answer = response.choices[0].text.trim();
-
-  // Add the AI's answer to the chat
-  appendChatMessage("ai-message", "Answer", answer);
-
-  // Clear the input field
-  questionInput.value = "";
-
-  // Record the data
-  recordData({
-    time: new Date(),
-    userQuestion: question,
-    aiResponse: answer,
-    responseTime: response.choices[0].finish_reason === "stop" ? response.choices[0].index : null,
-  });
-}
+    const questionInput = document.getElementById("question-input");
+    const question = questionInput.value.trim();
+    const submitButton = document.getElementById("submit-button");
+  
+    if (question.length === 0) return;
+  
+    // Disable the submit button
+    submitButton.disabled = true;
+  
+    // Add the user's question to the chat
+    appendChatMessage("user-message", "User", question);
+  
+    // Call the API
+    const prompt = `prompt here\n\nUser: ${question}\nAI: `;
+    const response = await callChatGPTAPI(prompt);
+    const answer = response.choices[0].text.trim();
+  
+    // Add the AI's answer to the chat
+    appendChatMessage("ai-message", "WisdoMine", answer);
+  
+    // Clear the input field
+    questionInput.value = "";
+  
+    // Enable the submit button
+    submitButton.disabled = false;
+  
+    // Record the data
+    recordData({
+      time: new Date(),
+      userQuestion: question,
+      aiResponse: answer,
+      responseTime: response.choices[0].finish_reason === "stop" ? response.choices[0].index : null,
+    });
+  }
+  
 
 function appendChatMessage(className, label, text) {
     const chatContent = document.getElementById("chat-content");

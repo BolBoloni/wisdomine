@@ -30,7 +30,7 @@
             </div>
             <form id="question-form" onsubmit="event.preventDefault(); askQuestion();">
               <input id="question-input" type="text" placeholder="Ask your question" maxlength="200">
-              <button type="submit">Ask</button>
+              <button id="submit-button" onclick="askQuestion()">Ask</button>
             </form>
         </section>
     </main>
