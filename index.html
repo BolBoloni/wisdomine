@@ -1,31 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WisdoMine</title>
+    <!-- Add the Google Analytics tracking code here -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    <!-- End of Google Analytics tracking code -->
     <link rel="stylesheet" href="styles.css">
-    <script defer src="app.js"></script>
 </head>
-
 <body>
-    <div id="app"></div>
-    <footer>
-        <div class="footer-section">
-            <h2 class="footer-title">Contact Us</h2>
-            <p>If you have any questions, suggestions, or feedback, feel free to email us at: <a href="mailto:contact@wisdomine.com">contact@wisdomine.com</a></p>
-        </div>
-        <div class="footer-section">
-            <h2 class="footer-title">FAQ</h2>
-            <ul>
-                <li><a href="#q1">How does WisdoMine work?</a></li>
-                <li><a href="#q2">Is my data secure?</a></li>
-                <li><a href="#q3">Can I use WisdoMine on my smartphone?</a></li>
-                <li><a href="#q4">How do I report incorrect information?</a></li>
-            </ul>
-        </div>
-    </footer>
-</body>
+    <header>
+        <h1>WisdoMine</h1>
+    </header>
 
+    <main>
+        <section>
+            <h2>Ask your question</h2>
+            <div id="chat-container">
+              <div id="chat-content"></div>
+            </div>
+            <form id="question-form" onsubmit="event.preventDefault(); askQuestion();">
+              <input id="question-input" type="text" placeholder="Ask your question" maxlength="200">
+              <button type="submit">Ask</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <nav>
+            <a href="use-examples.html">Use Examples</a>
+            <a href="FAQ.html">FAQ</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
 </html>
