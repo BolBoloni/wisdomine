@@ -80,6 +80,20 @@ button:hover {
   background-color: #0056b3;
 }
 
+button_debug {
+  background-color: #7bcce0;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+button_debug:hover {
+  background-color: #7bcce0;
+}
+
 footer {
   background: linear-gradient(90deg, rgba(0,123,255,1) 0%, rgba(0,143,255,1) 100%);
   color: white;
