@@ -31,11 +31,17 @@ app.post('/api/ask', async (req, res) => {
   }
 });
 
+let dataStore = []; // Temporary storage, replace with a proper database
+
 app.post('/api/record', (req, res) => {
   const data = req.body;
-  // TODO: Save the data in your database
+  dataStore.push(data); // Save the data in the dataStore
   console.log('Recorded data:', data);
   res.sendStatus(200);
+});
+
+app.get('/api/data', (req, res) => {
+  res.json(dataStore); // Send all the data
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
