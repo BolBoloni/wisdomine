@@ -25,12 +25,13 @@
     <main>
         <section>
             <h2>Ask your question</h2>
-            <div id="chat-container">
+            <article id="chat-container">
               <div id="chat-content"></div>
-            </div>
+            </article>
             <form id="question-form" onsubmit="event.preventDefault(); askQuestion();">
-              <input id="question-input" type="text" placeholder="Ask your question" maxlength="200">
+              <input id="question-input" type="text" placeholder="Ask your question" maxlength="200" aria-label="Input for user's question">
               <button id="submit-button" onclick="askQuestion()">Ask</button>
+              <button id="toggle-debugging" onclick="toggleDebugging()">Toggle Debugging</button>
             </form>
         </section>
     </main>

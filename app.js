@@ -1,23 +1,31 @@
 const apiKey = "your_openai_api_key_here";
 
-function callChatGPTAPI() {
-    // Array of pre-determined sentences
-    const sentences = [
-      "This is a random sentence for debugging purposes.",
-      "Another random sentence appears!",
-      "Debugging is an essential part of software development.",
-      "Yet another random sentence for your debugging needs.",
-      "This is a test. This is only a test.",
-    ];
-  
-    // Pick a random sentence
-    const index = Math.floor(Math.random() * sentences.length);
-    const sentence = sentences[index];
-  
-    // Return the sentence wrapped in a Promise to simulate an async API call
-    return Promise.resolve({ choices: [{ text: sentence }] });
-  }
-  
+let debugging = false;
+
+function toggleDebugging() {
+    debugging = !debugging;
+    const toggleButton = document.getElementById("toggle-debugging");
+    toggleButton.innerText = debugging ? "Turn off Debugging" : "Turn on Debugging";
+}
+
+function callChatGPTAPI(prompt) {
+    if (debugging) {
+        const sentences = [
+            "This is a random sentence for debugging purposes.",
+            "Another random sentence appears!",
+            "Debugging is an essential part of software development.",
+            "Yet another random sentence for your debugging needs.",
+            "This is a test. This is only a test.",
+        ];
+    
+        const index = Math.floor(Math.random() * sentences.length);
+        const sentence = sentences[index];
+    
+        return Promise.resolve({ choices: [{ text: sentence }] });
+    } else {
+        // Add your actual API call here
+    }
+}
 
 async function askQuestion() {
     const questionInput = document.getElementById("question-input");
@@ -26,42 +34,32 @@ async function askQuestion() {
   
     if (question.length === 0) return;
   
-    // Disable the submit button
     submitButton.disabled = true;
   
-    // Add the user's question to the chat
     appendChatMessage("user-message", "User", question);
   
-    // Call the API
     const prompt = `prompt here\n\nUser: ${question}\nAI: `;
     const response = await callChatGPTAPI(prompt);
     const answer = response.choices[0].text.trim();
   
-    // Add the AI's answer to the chat
     appendChatMessage("ai-message", "WisdoMine", answer);
   
-    // Clear the input field
     questionInput.value = "";
-  
-    // Enable the submit button
     submitButton.disabled = false;
   
-    // Record the data
     recordData({
-      time: new Date(),
-      userQuestion: question,
-      aiResponse: answer,
-      responseTime: response.choices[0].finish_reason === "stop" ? response.choices[0].index : null,
+        time: new Date(),
+        userQuestion: question,
+        aiResponse: answer,
+        responseTime: response.choices[0].finish_reason === "stop" ? response.choices[0].index : null,
     });
-  }
-  
+}
 
-  function appendChatMessage(className, label, text) {
+function appendChatMessage(className, label, text) {
     const chatContent = document.getElementById("chat-content");
     const messageDiv = document.createElement("div");
     messageDiv.classList.add("chat-message", className);
     
-    // Add thumbs up and thumbs down buttons for AI's answer
     if (className === "ai-message") {
       messageDiv.innerHTML = `
         <div>
@@ -73,7 +71,6 @@ async function askQuestion() {
         </div>
       `;
       
-      // Add event listeners for the buttons
       messageDiv.querySelector(".thumbs-up").addEventListener("click", () => {
         recordData({ eventType: "thumbsUp" });
       });
@@ -85,23 +82,17 @@ async function askQuestion() {
     }
     
     chatContent.appendChild(messageDiv);
-    
-    // Scroll to the bottom of the chat
     chatContent.scrollTop = chatContent.scrollHeight;
-  }
-  
-  
-  
-  function recordData(data) {
-    // Save the data to your database, analytics service, or any other storage system
+}
+
+function recordData(data) {
     console.log("Data recorded:", data);
-  }
-  
-  // Event listeners for thumbs up and thumbs down buttons
-  document.getElementById("thumbs-up").addEventListener("click", () => {
+}
+
+document.getElementById("thumbs-up").addEventListener("click", () => {
     recordData({ eventType: "thumbsUp" });
-  });
-  
-  document.getElementById("thumbs-down").addEventListener("click", () => {
+});
+
+document.getElementById("thumbs-down").addEventListener("click", () => {
     recordData({ eventType: "thumbsDown" });
-  });
+});
