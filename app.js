@@ -19,34 +19,33 @@ function callChatGPTAPI() {
   }
   
 
-async function askQuestion() {
-    const questionInput = document.getElementById("question-input");
-    const question = questionInput.value.trim();
-    const submitButton = document.getElementById("submit-button");
+  async function askQuestion() {
+    const userPrompt = document.getElementById("user-input").value;
+    if (userPrompt.trim() === "") {
+      alert("Please enter a question.");
+      return;
+    }
   
-    if (question.length === 0) return;
+    appendChatMessage("user-message", "User", userPrompt);
+    document.getElementById("user-input").value = "";
   
-    // Disable the submit button
-    submitButton.disabled = true;
+    // Disable the send button and change its content to show a loading spinner
+    const sendButton = document.getElementById("send-button");
+    sendButton.disabled = true;
+    sendButton.innerHTML = `<div class="loader"></div>`;
   
-    // Add the user's question to the chat
-    appendChatMessage("user-message", "User", question);
+    const chatGPTResponse = await callChatGPTAPI(`prompt here`);
+    
+    // Re-enable the send button and change its content back to "Send"
+    sendButton.disabled = false;
+    sendButton.textContent = "Send";
   
-    // Call the API
-    const prompt = `prompt here\n\nUser: ${question}\nAI: `;
-    const response = await callChatGPTAPI(prompt);
-    const answer = response.choices[0].text.trim();
-  
-    // Add the AI's answer to the chat
-    appendChatMessage("ai-message", "WisdoMine", answer);
-  
-    // Clear the input field
+    const answer = chatGPTResponse.choices[0].text.trim();
+    appendChatMessage("ai-message", "AI", answer);
+
     questionInput.value = "";
   
-    // Enable the submit button
     submitButton.disabled = false;
-  
-    // Record the data
     recordData({
       time: new Date(),
       userQuestion: question,
@@ -105,3 +104,10 @@ async function askQuestion() {
   document.getElementById("thumbs-down").addEventListener("click", () => {
     recordData({ eventType: "thumbsDown" });
   });
+
+  document.getElementById("view-data").addEventListener("click", viewData);
+
+  function viewData() {
+    console.log(sessionData);
+  }
+  
