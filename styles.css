@@ -12,6 +12,18 @@ header {
   text-align: center;
 }
 
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+#logo {
+  width: 50px;  /* Adjust as needed */
+  height: 50px;  /* Adjust as needed */
+}
+
 main {
   display: flex;
   justify-content: center;
